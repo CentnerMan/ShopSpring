@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.vlsv.ShopSpring.entities.Product;
-import ru.vlsv.ShopSpring.filters.ProductsFilter;
 import ru.vlsv.ShopSpring.services.ProductsService;
+import ru.vlsv.ShopSpring.tools.ProductsFilter;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
