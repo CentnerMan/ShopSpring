@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * GeekBrains Java, ShopSpring.
@@ -32,9 +31,6 @@ public class Product implements Serializable {
 
     @Column(name = "cost")
     private BigDecimal cost;
-
-    @OneToMany(mappedBy = "product")
-    private List<Purchase> purchases;
 
     @Override
     public String toString() {

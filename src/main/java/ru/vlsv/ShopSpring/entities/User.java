@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * GeekBrains Java, ShopSpring.
@@ -39,6 +40,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -63,10 +67,4 @@ public class User {
         this.roles = roles;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", username='" + username + '\'' + ", password='" + "*********" + '\''
-                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
-                + ", roles=" + roles + '}';
-    }
 }

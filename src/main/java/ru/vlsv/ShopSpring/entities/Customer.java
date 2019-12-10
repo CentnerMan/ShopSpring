@@ -30,19 +30,9 @@ public class Customer implements Serializable {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<Purchase> purchases;
-
     public Customer(Long id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public Customer(Long id, String name, List<Purchase> purchases) {
-        this.id = id;
-        this.name = name;
-        this.purchases = purchases;
     }
 
     @Override

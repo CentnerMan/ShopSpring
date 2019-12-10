@@ -34,9 +34,6 @@
                 <li sec:authorize="hasRole('ADMIN')"  class="nav-item" th:classappend="${activeTab =='Customers' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/customers}">Покупатели</a>
                 </li>
-                <li sec:authorize="hasRole('ADMIN')"  class="nav-item" th:classappend="${activeTab =='Purchases' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/purchases}">Покупки</a>
-                </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${activeTab =='Cart' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/cart}">Корзина</a>
                 </li>
