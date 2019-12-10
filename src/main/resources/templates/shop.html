@@ -18,13 +18,13 @@
 
 <div class="container">
 
-    <div th:replace="~{navigation :: navigation(Products)}" />
+    <div th:replace="~{navigation :: navigation(Shop)}"/>
 
-    <h2>Товары:</h2>
+    <h2>Магазин:</h2>
 
     <hr>
 
-    <form th:action="@{/products}" method="get">
+    <form th:action="@{/shop}" method="get">
         <input th:value="${word != null} ? ${word}" th:name="word" type="text" placeholder="Название">
         <label>Мин.:</label>
         <input th:name="min" type="number" placeholder="MIN стоимость"
@@ -46,34 +46,35 @@
             <th>ID</th>
             <th>Наименование</th>
             <th>Стоимость</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="product : ${page.getContent()}">
             <td th:text="${product.id}"/>
-            <td>
-                <a th:href="@{/products/edit?id={id}(id=${product.id})}" th:text="${product.title}">Product</a>
-            </td>
+            <td th:text="${product.title}">Product</td>
             <td th:text="${product.cost}"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/cart/add?id=' + ${product.id}}">В корзину</a>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <a class="btn btn-success" th:href="@{/products/create}">Создать новый товар</a>
-
-    <hr>
-
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li class="page-item" th:if="${page.getNumber() > 0}">
-                <a th:class="page-link" th:text="Предыдущая" th:href="@{'/products?pageNumber=' + ${page.getNumber()} + ${filters}}"></a>
+                <a th:class="page-link" th:text="Предыдущая"
+                   th:href="@{'/shop?pageNumber=' + ${page.getNumber()} + ${filters}}"></a>
             </li>
-            <li class="page-item" th:if="${page.getTotalPages() > 0}" th:classappend="${page.getNumber() + 1 == i ? 'active' : ''}"
+            <li class="page-item" th:if="${page.getTotalPages() > 0}"
+                th:classappend="${page.getNumber() + 1 == i ? 'active' : ''}"
                 th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">
-                <a th:class="page-link" th:text="${i}" th:href="@{'/products?pageNumber=' + ${i} + ${filters}}"></a>
+                <a th:class="page-link" th:text="${i}" th:href="@{'/shop?pageNumber=' + ${i} + ${filters}}"></a>
             </li>
             <li class="page-item" th:if="${page.getNumber() < page.getTotalPages() - 1 }">
-                <a th:class="page-link" th:text="Следующая" th:href="@{'/products?pageNumber=' + ${page.getNumber() + 2} + ${filters}}"></a>
+                <a th:class="page-link" th:text="Следующая"
+                   th:href="@{'/shop?pageNumber=' + ${page.getNumber() + 2} + ${filters}}"></a>
             </li>
         </ul>
     </nav>

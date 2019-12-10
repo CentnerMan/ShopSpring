@@ -1,7 +1,7 @@
-# DROP DATABASE IF EXISTS `spring_shop`;
-# CREATE SCHEMA `spring_shop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-#
-# USE `spring_shop`;
+/*DROP DATABASE IF EXISTS `spring_shop`;*/
+CREATE SCHEMA IF NOT EXISTS `spring_shop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+
+USE `spring_shop`;
 
 DROP TABLE IF EXISTS `spring_shop`.`purchases`;
 CREATE TABLE `spring_shop`.`purchases`
@@ -11,17 +11,7 @@ CREATE TABLE `spring_shop`.`purchases`
     `product`        INT            NOT NULL,
     `purchase_price` DECIMAL(19, 2) NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-    UNIQUE INDEX `customer_id_idx` (`customer` ASC) VISIBLE,
-    UNIQUE INDEX `product_id_idx` (`product` ASC) VISIBLE,
-    FOREIGN KEY (`customer`)
-        REFERENCES `spring_shop`.`customers` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    FOREIGN KEY (`product`)
-        REFERENCES `spring_shop`.`products` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE
 );
 
 DROP TABLE IF EXISTS `spring_shop`.`customers`;
@@ -44,6 +34,23 @@ CREATE TABLE `spring_shop`.`products`
     UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
     UNIQUE INDEX `title_UNIQUE` (`title` ASC) VISIBLE
 );
+
+ALTER TABLE `spring_shop`.`purchases`
+    ADD INDEX `customer_id_idx` (`customer` ASC) VISIBLE,
+    ADD INDEX `product_id_idx` (`product` ASC) VISIBLE;
+;
+
+ALTER TABLE `spring_shop`.`purchases`
+    ADD CONSTRAINT `customer_id`
+        FOREIGN KEY (`customer`)
+            REFERENCES `spring_shop`.`customers` (`id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+    ADD CONSTRAINT `product_id`
+        FOREIGN KEY (`product`)
+            REFERENCES `spring_shop`.`products` (`id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
 
 INSERT INTO `spring_shop`.`customers` (`name`)
 VALUES ('Арнольд'),
@@ -103,7 +110,7 @@ CREATE TABLE `spring_shop`.`users`
 (
     `id`         INT         NOT NULL AUTO_INCREMENT,
     `username`   varchar(50) NOT NULL,
-    `password`   varchar(80) NOT NULL,
+    `password`   varchar(80) NOT NULL, /*char*/
     `first_name` VARCHAR(50) NOT NULL,
     `last_name`  VARCHAR(50) NOT NULL,
     `email`      VARCHAR(50) NOT NULL,
@@ -117,7 +124,7 @@ CREATE TABLE `spring_shop`.`roles`
     `id`   INT         NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
     PRIMARY KEY (id)
-);
+) ;
 
 DROP TABLE IF EXISTS users_roles;
 CREATE TABLE users_roles
@@ -138,7 +145,7 @@ VALUES ('ROLE_USER'),
 
 INSERT INTO users (username, password, first_name, last_name, email, phone)
 VALUES ('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'Admin', 'Admin', 'admin@gmail.com',
-        '+79881111111');
+        '+79881111111'); /*pass=100*/
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES (1, 1),
