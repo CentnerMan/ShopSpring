@@ -1,0 +1,21 @@
+GET http://localhost:8189/app/api/customers/
+
+###
+
+GET http://localhost:8189/app/api/customers//2
+
+###
+
+POST http://localhost:8189/app/api/customers/
+Content-Type: application/json
+
+{
+  "name": "Федор",
+  "purchases": []
+}
+
+###
+
+DELETE http://localhost:8189/app/api/customers/11
+
+###

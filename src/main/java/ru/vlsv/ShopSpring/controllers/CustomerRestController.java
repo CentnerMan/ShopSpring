@@ -25,47 +25,6 @@ import java.util.List;
 @RequestMapping("/api/customers")
 public class CustomerRestController {
 
-    // В связи с наличием покупок, вывод уходит в бесконечный цикл, представленный ниже.
-    // Временно решил проблему хотя бы отображения созданием внутреннего класса без покупок.
-    // Не придумал, как можно решить элегантнее :(
-    // По логике, нужно просто не раскрывать класс Purchase.
-    //
-    // {
-    //    "id": 1,
-    //    "name": "Арнольд",
-    //    "purchases": [
-    //        {
-    //            "id": 1,
-    //            "customer": {
-    //                "id": 1,
-    //                "name": "Арнольд",
-    //                "purchases": [
-    //                    {
-    //                        "id": 1,
-    //                        "customer": {
-    //                            "id": 1,
-    //                            "name": "Арнольд",
-    //                            "purchases": [
-    //                                {
-    //                                    "id": 1,
-    //                                    "customer": {
-    //                                        "id": 1,
-    //                                        "name": "Арнольд",
-    //                                        "purchases": [
-    //                                            {
-
-    @Data
-    @NoArgsConstructor
-    private static class CustomerWithoutPurchases {
-        private Long id;
-        private String name;
-
-        CustomerWithoutPurchases(Long id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-    }
-
     private CustomerService customerService;
 
     @Autowired
@@ -86,20 +45,14 @@ public class CustomerRestController {
 //    }
 
     @GetMapping("/")
-    public List<CustomerWithoutPurchases> findAllWithoutPurchases() {
-        List<Customer> customerList = customerService.findAll();
-        List<CustomerWithoutPurchases> cwp = new ArrayList<>();
-        for (Customer customer : customerList) {
-            cwp.add(new CustomerWithoutPurchases(customer.getId(), customer.getName()));
-        }
-        return cwp;
+    public List<Customer> findAllWithoutPurchases() {
+        return customerService.findAllWithoutPurchases();
     }
 
     @GetMapping("/{id}")
-    public CustomerWithoutPurchases findById(@PathVariable Long id) {
-        Customer customer = customerService.findById(id)
+    public Customer findByIdWithoutPurchases(@PathVariable Long id) {
+        return customerService.findByIdWithoutPurchases(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + id));
-        return new CustomerWithoutPurchases(customer.getId(), customer.getName());
     }
 
     @PostMapping("/")

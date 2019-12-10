@@ -1,2 +1,0 @@
-# ShopSpring
-Магазин на Spring

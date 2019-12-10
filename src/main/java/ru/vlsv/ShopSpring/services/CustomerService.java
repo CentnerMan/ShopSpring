@@ -29,6 +29,14 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    public List<Customer> findAllWithoutPurchases(){
+        return customerRepository.findAllWithoutPurchases();
+    }
+
+    public Optional<Customer> findByIdWithoutPurchases (Long id){
+        return customerRepository.findByIdWithoutPurchases(id);
+    }
+
     public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
