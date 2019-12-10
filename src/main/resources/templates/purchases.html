@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Покупки</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Покупки:</h2>
+    <hr>
+    <!--    <form th:action="@{/filter_by_cost}" method="get">-->
+    <!--        <label>Минимальная стоимость:-->
+    <!--            <input th:name="minCost" type="number" placeholder="MIN стоимость" th:value="0">-->
+    <!--        </label>-->
+    <!--        <label>Максимальная стоимость:-->
+    <!--            <input th:name="maxCost" type="number" placeholder="MAX стоимость" th:value="10000">-->
+    <!--        </label>-->
+    <!--        <button type="submit" class="btn btn-primary">Фильтровать</button>-->
+    <!--    </form>-->
+    <!--    <br>-->
+    <!--    <hr>-->
+    <!--    <br>-->
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Покупатель</th>
+            <th>Товар</th>
+            <th>Стоимость покупки</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="purchase : ${purchases}">
+            <td th:text="${purchase.id}"/>
+            <td th:text="${purchase.getCustomer().name}"/>
+            <td th:text="${purchase.getProduct().title}"/>
+            <td th:text="${purchase.getPurchasePrice()}"/>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <b><a th:href="@{/index}">Главная</a></b>
+
+</div>
+
+</body>
+</html>

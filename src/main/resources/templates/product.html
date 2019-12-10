@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Товары</title>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Редактирование данных товара</h2>
+    <hr>
+    <form th:object="${product}" th:action="@{/products/save}" method="post">
+        <!-- Очень часто применяемый способ передачи id через форму -->
+        <input type="hidden" name="id" id="id" th:field="*{id}">
+        <label for="title">Наименование</label>
+        <input type="text" id="title" name="title" th:field="*{title}" placeholder="Наименование"/>
+        <label for="cost">Стоимость</label>
+        <input type="text" id="cost" name="cost" th:field="*{cost}" placeholder="Стоимость"/>
+        <button type="submit" class="btn btn-primary">Записать изменения</button>
+    </form>
+    <hr>
+    <a class="btn btn-success" th:href="@{/products/create?productId={productId}(productId=${product.id})}">Создать
+        новый товар</a>
+
+    <hr>
+
+    <a class="btn btn-info" th:href="@{/products}">К списку товаров</a>
+
+</div>
+</body>
+</html>
