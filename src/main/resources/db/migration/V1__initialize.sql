@@ -18,7 +18,7 @@ CREATE TABLE products
 (
     id    SERIAL,
     title VARCHAR(45)   not null,
-    cost  DECIMAL(8, 2) NOT NULL,
+    price  DECIMAL(8, 2) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE INDEX id_UNIQUE (id ASC) VISIBLE,
     UNIQUE INDEX title_UNIQUE (`title` ASC) VISIBLE
@@ -34,7 +34,7 @@ VALUES ('Арнольд'),
        ('Тарас'),
        ('Гиви');
 
-INSERT INTO products (title, cost)
+INSERT INTO products (title, price)
 VALUES ('Чемодан', '1000'),
        ('Сундук', '2000'),
        ('Портфель', '3000'),
@@ -96,6 +96,7 @@ create table orders
 (
     id      serial,
     user_id bigint,
+    price   numeric(8, 2),
     PRIMARY KEY (id),
     foreign key (user_id) references users (id)
 );
@@ -103,11 +104,12 @@ create table orders
 drop table if exists order_items;
 create table order_items
 (
-    id         bigint NOT NULL AUTO_INCREMENT,
-    order_id   bigint,
-    product_id bigint,
-    quantity   int,
-    price      numeric(8, 2),
+    id          bigint NOT NULL AUTO_INCREMENT,
+    order_id    bigint,
+    product_id  bigint,
+    quantity    int,
+    item_price  numeric(8, 2),
+    total_price numeric(8, 2),
     PRIMARY KEY (id),
     foreign key (order_id) references orders (id),
     foreign key (product_id) references products (id)

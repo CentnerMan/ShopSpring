@@ -43,16 +43,16 @@ public class ProductService {
         return productRepository.findAllByIdBetween(minId, maxID);
     }
 
-    public List<Product> findAllByCostBetween(BigDecimal minCost, BigDecimal maxCost) {
-        return productRepository.findAllByCostBetweenOrderByCost(minCost, maxCost);
+    public List<Product> findAllByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.findAllByPriceBetweenOrderByPrice(minPrice, maxPrice);
     }
 
-    public Product minCost() {
-        return productRepository.findFirstByOrderByCostAsc();
+    public Product minPrice() {
+        return productRepository.findFirstByOrderByPriceAsc();
     }
 
-    public Product maxCost() {
-        return productRepository.findFirstByOrderByCostDesc();
+    public Product maxPrice() {
+        return productRepository.findFirstByOrderByPriceDesc();
     }
 
     public void save(Product product) {

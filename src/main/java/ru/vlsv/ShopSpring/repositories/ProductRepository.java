@@ -23,10 +23,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     List<Product> findAllByIdBetween(Long minId, Long maxId);
 
-    List<Product> findAllByCostBetweenOrderByCost(BigDecimal minCost, BigDecimal maxCost);
+    List<Product> findAllByPriceBetweenOrderByPrice(BigDecimal minPrice, BigDecimal maxPrice);
 
-    Product findFirstByOrderByCostAsc();
+    Product findFirstByOrderByPriceAsc();
 
-    Product findFirstByOrderByCostDesc();
+    Product findFirstByOrderByPriceDesc();
 
 }

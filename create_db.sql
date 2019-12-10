@@ -39,7 +39,7 @@ CREATE TABLE `spring_shop`.`products`
 (
     `id`    INT            NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45)    NULL,
-    `cost`  DECIMAL(19, 2) NOT NULL,
+    `price`  DECIMAL(19, 2) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
     UNIQUE INDEX `title_UNIQUE` (`title` ASC) VISIBLE
@@ -55,7 +55,7 @@ VALUES ('Арнольд'),
        ('Тарас'),
        ('Гиви');
 
-INSERT INTO `spring_shop`.`products` (`title`, `cost`)
+INSERT INTO `spring_shop`.`products` (`title`, `price`)
 VALUES ('Чемодан', '1000'),
        ('Сундук', '2000'),
        ('Портфель', '3000'),

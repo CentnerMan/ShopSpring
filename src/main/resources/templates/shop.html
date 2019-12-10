@@ -53,7 +53,7 @@
         <tr th:each="product : ${page.getContent()}">
             <td th:text="${product.id}"/>
             <td th:text="${product.title}">Product</td>
-            <td th:text="${product.cost}"/>
+            <td th:text="${product.price}"/>
             <td>
                 <a class="btn btn-primary" th:href="@{'/cart/add?id=' + ${product.id}}">В корзину</a>
             </td>

@@ -38,6 +38,9 @@ public class OrderItem implements Serializable {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "price")
-    private BigDecimal price;
+    @Column(name = "item_price")
+    private BigDecimal itemPrice;
+
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
 }

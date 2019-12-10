@@ -20,13 +20,13 @@ public class ProductSpecifications {
 
     public static Specification<Product> priceGreaterThanOrEq(BigDecimal value) {
         return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> {
-            return criteriaBuilder.greaterThanOrEqualTo(root.get("cost"), value);
+            return criteriaBuilder.greaterThanOrEqualTo(root.get("price"), value);
         };
     }
 
     public static Specification<Product> priceLesserThanOrEq(BigDecimal value) {
         return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> {
-            return criteriaBuilder.lessThanOrEqualTo(root.get("cost"), value);
+            return criteriaBuilder.lessThanOrEqualTo(root.get("price"), value);
         };
     }
 }

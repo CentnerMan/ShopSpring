@@ -29,15 +29,15 @@ public class Product implements Serializable {
     @Column(name = "title", unique = true, nullable = false)
     private String title;
 
-    @Column(name = "cost")
-    private BigDecimal cost;
+    @Column(name = "price")
+    private BigDecimal price;
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", cost=" + cost +
+                ", price=" + price +
                 '}';
     }
 }

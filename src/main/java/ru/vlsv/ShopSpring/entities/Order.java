@@ -34,6 +34,9 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;
 
+    @Column(name = "price")
+    private BigDecimal price;
+
     public Order(User user) {
         this.user = user;
     }
