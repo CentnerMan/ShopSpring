@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vlsv.ShopSpring.entities.Role;
-import ru.vlsv.ShopSpring.entities.SystemUser;
+import ru.vlsv.ShopSpring.tools.SystemUser;
 import ru.vlsv.ShopSpring.entities.User;
 import ru.vlsv.ShopSpring.repositories.RoleRepository;
 import ru.vlsv.ShopSpring.repositories.UserRepository;
@@ -47,23 +47,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean save(SystemUser systemUser) {
-        User user = new User();
-        if (findByUsername(systemUser.getUsername()) != null) {
-            return false;
-        }
-        user.setUsername(systemUser.getUsername());
-        user.setPassword(passwordEncoder.encode(systemUser.getPassword()));
-        user.setFirstName(systemUser.getFirstName());
-        user.setLastName(systemUser.getLastName());
-        user.setEmail(systemUser.getEmail());
-        user.setRoles(Arrays.asList(roleRepository.findOneByName("ROLE_CLIENT")));
-        userRepository.save(user);
-        return true;
-    }
-
-    @Override
-    @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepository.findOneByUsername(userName);
         if (user == null) {
@@ -77,4 +60,20 @@ public class UserServiceImpl implements UserService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public User save(SystemUser systemUser) {
+        User user = new User();
+        if (findByUsername(systemUser.getUsername()) != null) {
+            throw new RuntimeException("User with username " + systemUser.getUsername() + " is already exist");
+        }
+        user.setUsername(systemUser.getUsername());
+        user.setPassword(passwordEncoder.encode(systemUser.getPassword()));
+        user.setFirstName(systemUser.getFirstName());
+        user.setLastName(systemUser.getLastName());
+        user.setEmail(systemUser.getEmail());
+        user.setPhone(systemUser.getPhone());
+        user.setRoles(Arrays.asList(roleRepository.findOneByName("ROLE_CUSTOMER")));
+        return userRepository.save(user);
+    }
 }

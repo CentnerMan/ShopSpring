@@ -14,9 +14,7 @@ import java.util.*;
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart {
-
     private Map<Long, OrderItem> items;
-
     private BigDecimal totalPrice;
 
     public Map<Long, OrderItem> getItems() {

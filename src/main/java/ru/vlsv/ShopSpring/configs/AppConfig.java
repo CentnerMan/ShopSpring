@@ -3,6 +3,7 @@ package ru.vlsv.ShopSpring.configs;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * GeekBrains Java, ShopSpring.
@@ -15,5 +16,5 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:private.properties")
 @ComponentScan("ru.vlsv.ShopSpring")
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
 }

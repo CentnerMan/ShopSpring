@@ -2,10 +2,7 @@ package ru.vlsv.ShopSpring.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import javax.persistence.criteria.Order;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -20,23 +17,22 @@ import java.math.BigDecimal;
 @Table(name = "order_items")
 @Data
 @NoArgsConstructor
-public class OrderItem implements Serializable {
-
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-    @ManyToOne()
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToOne()
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     @Column(name = "quantity")
-    private Integer quantity;
+    private int quantity;
 
     @Column(name = "item_price")
     private BigDecimal itemPrice;

@@ -32,32 +32,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-
-//                .antMatchers("/**").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/products/**").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/customers/**").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/purchases/**").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/profile/**").authenticated()
-
+                .antMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/admin/products/**").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/admin/users/**").hasRole("ADMIN")
+                .antMatchers("/shop/order/**").authenticated()
+                .antMatchers("/profile/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/authenticateTheUser")
                 .permitAll()
-//                .httpBasic()
                 .and()
                 .logout()
-                .deleteCookies("JSESSIONID")
-//                .logoutUrl("/logout")
                 .logoutSuccessUrl("/shop")
                 .permitAll();
     }

@@ -1,8 +1,11 @@
 package ru.vlsv.ShopSpring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.vlsv.ShopSpring.entities.Order;
+import ru.vlsv.ShopSpring.entities.User;
 import ru.vlsv.ShopSpring.repositories.OrderRepository;
-import ru.vlsv.ShopSpring.repositories.ProductRepository;
+import ru.vlsv.ShopSpring.tools.Cart;
 
 /**
  * GeekBrains Java, ShopSpring.
@@ -12,11 +15,25 @@ import ru.vlsv.ShopSpring.repositories.ProductRepository;
  * @link https://github.com/Centnerman
  */
 
+@Service
 public class OrderService {
     private OrderRepository orderRepository;
 
+    private Cart cart;
+
     @Autowired
-    public void setOrderRepository(OrderRepository orderRepository) {
+    private UserService userService;
+
+    @Autowired
+    public OrderService(OrderRepository orderRepository, Cart cart) {
         this.orderRepository = orderRepository;
+        this.cart = cart;
+    }
+
+    public Order createOrder(User user) {
+        Order order = new Order(user);
+        cart.getItems().values().forEach(order::addItem);
+        cart.clear();
+        return orderRepository.save(order);
     }
 }

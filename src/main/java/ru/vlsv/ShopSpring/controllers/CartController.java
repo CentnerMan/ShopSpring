@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.vlsv.ShopSpring.entities.Product;
-import ru.vlsv.ShopSpring.services.ProductService;
+import ru.vlsv.ShopSpring.services.ProductsService;
 import ru.vlsv.ShopSpring.tools.Cart;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * GeekBrains Java, ShopSpring.
@@ -26,13 +26,13 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/cart")
 public class CartController {
-    private ProductService productService;
+    private ProductsService productsService;
 
     private Cart cart;
 
     @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
+    public void setProductsService(ProductsService productsService) {
+        this.productsService = productsService;
     }
 
     @Autowired
@@ -41,15 +41,16 @@ public class CartController {
     }
 
     @GetMapping("")
-    public String show(Model model) {
-        model.addAttribute("products", cart.getProducts());
+    public String show(Model model, HttpSession session) {
+//        Cart cartX = (Cart) session.getAttribute("scopedTarget.cart");
+        model.addAttribute("items", cart.getItems().values());
         return "cart";
     }
 
     @GetMapping("/add")
     public void addProductToCart(@RequestParam("id") Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        productService.findById(id).ifPresent(product -> cart.addProduct(product));
+        Product product = productsService.findById(id);
+        cart.addProduct(product);
         response.sendRedirect(request.getHeader("referer"));
     }
-
 }

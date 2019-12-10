@@ -1,6 +1,7 @@
 package ru.vlsv.ShopSpring.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.vlsv.ShopSpring.entities.OrderItem;
 
 /**
@@ -11,5 +12,6 @@ import ru.vlsv.ShopSpring.entities.OrderItem;
  * @link https://github.com/Centnerman
  */
 
+@Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 }

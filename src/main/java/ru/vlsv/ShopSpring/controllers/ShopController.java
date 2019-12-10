@@ -6,13 +6,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.vlsv.ShopSpring.entities.Product;
 import ru.vlsv.ShopSpring.filters.ProductsFilter;
-import ru.vlsv.ShopSpring.services.ProductService;
+import ru.vlsv.ShopSpring.services.ProductsService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * GeekBrains Java, ShopSpring.
@@ -23,44 +27,33 @@ import java.math.BigDecimal;
  */
 
 @Controller
-@RequestMapping("shop")
+@RequestMapping("/shop")
 public class ShopController {
-    private ProductService productService;
-    private static final int DEFAULT_PAGE_SIZE = 10;
+    private ProductsService productsService;
 
     @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
+    public void setProductsService(ProductsService productsService) {
+        this.productsService = productsService;
     }
 
     @GetMapping()
-    public String shop(Model model, HttpServletRequest request,
-                               @RequestParam(name = "word", required = false) String word,
-                               @RequestParam(name = "min", required = false) BigDecimal min,
-                               @RequestParam(name = "max", required = false) BigDecimal max,
-                               @RequestParam(name = "pageNumber", required = false) Integer pageNumber,
-                               @RequestParam(name = "pageSize", required = false) Integer pageSize
+    public String shop(Model model, HttpServletRequest request, HttpServletResponse response,
+                       @CookieValue(value = "page_size", required = false) Integer pageSize,
+                       @RequestParam(name = "pageNumber", required = false) Integer pageNumber
+                       // @RequestParam Map<String, String> params
     ) {
         ProductsFilter productsFilter = new ProductsFilter(request);
-
-        if (pageNumber == null) {
+        if (pageNumber == null || pageNumber < 1) {
             pageNumber = 1;
         }
-        if (pageSize == null || pageSize == 0) {
-            pageSize = DEFAULT_PAGE_SIZE;
+        if (pageSize == null) {
+            pageSize = 10;
+            response.addCookie(new Cookie("page_size", String.valueOf(pageSize)));
         }
-
-        model.addAttribute("word", word);
-        model.addAttribute("min", min);
-        model.addAttribute("max", max);
         model.addAttribute("pageNumber", pageNumber);
-        model.addAttribute("pageSize", pageSize);
         model.addAttribute("filters", productsFilter.getFiltersString());
-
-        Page<Product> page = productService.findAllByPagingAndFiltering(productsFilter.getSpecification(),
-                PageRequest.of(pageNumber - 1, pageSize, Sort.Direction.ASC, "id"));
+        Page<Product> page = productsService.findAllByPagingAndFiltering(productsFilter.getSpecification(), PageRequest.of(pageNumber - 1, 10, Sort.Direction.ASC, "id"));
         model.addAttribute("page", page);
         return "shop";
     }
-
 }

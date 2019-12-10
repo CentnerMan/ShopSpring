@@ -19,25 +19,21 @@ import java.math.BigDecimal;
 @Table(name = "products")
 @Data
 @NoArgsConstructor
-public class Product implements Serializable {
-
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title", unique = true, nullable = false)
+    @Column(name = "title")
     private String title;
 
     @Column(name = "price")
     private BigDecimal price;
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                '}';
+    public Product(Long id, String title, BigDecimal price) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
     }
 }

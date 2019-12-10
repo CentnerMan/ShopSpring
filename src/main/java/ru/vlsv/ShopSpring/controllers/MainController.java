@@ -2,11 +2,7 @@ package ru.vlsv.ShopSpring.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.vlsv.ShopSpring.entities.Product;
-
-import java.util.List;
 
 /**
  * GeekBrains Java, ShopSpring.
@@ -23,19 +19,14 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/index")
-    public String indexFrom() {
-        return "index";
-    }
-
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
     @GetMapping("/admin")
-    public String adminPanel() {
-        return "admin";
+    @ResponseBody
+    public String admin() {
+        return "Hello";
     }
-
 }

@@ -1,50 +1,7 @@
-/*DROP DATABASE IF EXISTS `spring_shop`;*/
+# DROP DATABASE IF EXISTS `spring_shop`;
 CREATE SCHEMA IF NOT EXISTS spring_shop DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 USE spring_shop;
-
-DROP TABLE IF EXISTS customers;
-CREATE TABLE customers
-(
-    id   serial,
-    name VARCHAR(45) NULL,
-    UNIQUE INDEX id_UNIQUE (id ASC) VISIBLE,
-    PRIMARY KEY (id),
-    UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE
-);
-
-DROP TABLE IF EXISTS products;
-CREATE TABLE products
-(
-    id    SERIAL,
-    title VARCHAR(45)   not null,
-    price  DECIMAL(8, 2) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE INDEX id_UNIQUE (id ASC) VISIBLE,
-    UNIQUE INDEX title_UNIQUE (`title` ASC) VISIBLE
-);
-
-INSERT INTO customers (name)
-VALUES ('Арнольд'),
-       ('Иван'),
-       ('Мария'),
-       ('Сергей'),
-       ('Татьяна'),
-       ('Ольга'),
-       ('Тарас'),
-       ('Гиви');
-
-INSERT INTO products (title, price)
-VALUES ('Чемодан', '1000'),
-       ('Сундук', '2000'),
-       ('Портфель', '3000'),
-       ('Кошёлка', '7500'),
-       ('Кровать', '1540'),
-       ('Стул', '7841'),
-       ('Табурет', '4545'),
-       ('Тахта', '1500'),
-       ('Тумбочка', '6500'),
-       ('Фонарь', '100');
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
@@ -84,33 +41,50 @@ VALUES ('ROLE_USER'),
 
 INSERT INTO users (username, password, first_name, last_name, email, phone)
 VALUES ('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'Admin', 'Admin', 'admin@gmail.com',
-        '+79881111111'); /*pass=100*/
+        '+79881111111');
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES (1, 1),
        (1, 2),
        (1, 3);
 
-drop table if exists orders;
-create table orders
+DROP TABLE IF EXISTS products;
+CREATE TABLE products
 (
-    id      serial,
-    user_id bigint,
-    price   numeric(8, 2),
-    PRIMARY KEY (id),
-    foreign key (user_id) references users (id)
+    id    serial,
+    title varchar(255),
+    price numeric(8, 2),
+    PRIMARY KEY (id)
 );
 
-drop table if exists order_items;
-create table order_items
+INSERT INTO products (title, price)
+VALUES ('Cheese', 320.0),
+       ('Milk', 90.0),
+       ('Apples', 120.0);
+
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders
 (
-    id          bigint NOT NULL AUTO_INCREMENT,
+    id         serial,
+    user_id    bigint,
+    price      numeric(8, 2),
+    status     varchar(255),
+    created_at timestamp,
+    updated_at timestamp,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+DROP TABLE IF EXISTS order_items;
+CREATE TABLE order_items
+(
+    id          serial,
     order_id    bigint,
     product_id  bigint,
     quantity    int,
     item_price  numeric(8, 2),
     total_price numeric(8, 2),
     PRIMARY KEY (id),
-    foreign key (order_id) references orders (id),
-    foreign key (product_id) references products (id)
+    FOREIGN KEY (order_id) REFERENCES orders (id),
+    FOREIGN KEY (product_id) REFERENCES products (id)
 );

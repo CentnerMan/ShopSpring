@@ -17,16 +17,5 @@ import java.util.List;
  */
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
-
-    Product findOneByTitle(String title);
-
-    List<Product> findAllByIdBetween(Long minId, Long maxId);
-
-    List<Product> findAllByPriceBetweenOrderByPrice(BigDecimal minPrice, BigDecimal maxPrice);
-
-    Product findFirstByOrderByPriceAsc();
-
-    Product findFirstByOrderByPriceDesc();
-
+public interface ProductsRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 }
